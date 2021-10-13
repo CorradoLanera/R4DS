@@ -12,11 +12,7 @@ editor_options:
 This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook.
 When you execute code within the notebook, the results appear beneath the code.
 
-```{r, include = FALSE}
-library(tidyverse)
-library(ISLR2)
-library(ggpubr)
-```
+
 
 ### ex. 1
 
@@ -151,34 +147,81 @@ The variables are
 
 [omissis]
 
-```{r}
+
+```r
 college <- College
 ```
 
 Use the summary() function to produce a numerical summary of the variables in the data set
 
-```{r}
+
+```r
 summary(college)
+```
+
+```
+##  Private        Apps           Accept          Enroll       Top10perc    
+##  No :212   Min.   :   81   Min.   :   72   Min.   :  35   Min.   : 1.00  
+##  Yes:565   1st Qu.:  776   1st Qu.:  604   1st Qu.: 242   1st Qu.:15.00  
+##            Median : 1558   Median : 1110   Median : 434   Median :23.00  
+##            Mean   : 3002   Mean   : 2019   Mean   : 780   Mean   :27.56  
+##            3rd Qu.: 3624   3rd Qu.: 2424   3rd Qu.: 902   3rd Qu.:35.00  
+##            Max.   :48094   Max.   :26330   Max.   :6392   Max.   :96.00  
+##    Top25perc      F.Undergrad     P.Undergrad         Outstate    
+##  Min.   :  9.0   Min.   :  139   Min.   :    1.0   Min.   : 2340  
+##  1st Qu.: 41.0   1st Qu.:  992   1st Qu.:   95.0   1st Qu.: 7320  
+##  Median : 54.0   Median : 1707   Median :  353.0   Median : 9990  
+##  Mean   : 55.8   Mean   : 3700   Mean   :  855.3   Mean   :10441  
+##  3rd Qu.: 69.0   3rd Qu.: 4005   3rd Qu.:  967.0   3rd Qu.:12925  
+##  Max.   :100.0   Max.   :31643   Max.   :21836.0   Max.   :21700  
+##    Room.Board       Books           Personal         PhD        
+##  Min.   :1780   Min.   :  96.0   Min.   : 250   Min.   :  8.00  
+##  1st Qu.:3597   1st Qu.: 470.0   1st Qu.: 850   1st Qu.: 62.00  
+##  Median :4200   Median : 500.0   Median :1200   Median : 75.00  
+##  Mean   :4358   Mean   : 549.4   Mean   :1341   Mean   : 72.66  
+##  3rd Qu.:5050   3rd Qu.: 600.0   3rd Qu.:1700   3rd Qu.: 85.00  
+##  Max.   :8124   Max.   :2340.0   Max.   :6800   Max.   :103.00  
+##     Terminal       S.F.Ratio      perc.alumni        Expend     
+##  Min.   : 24.0   Min.   : 2.50   Min.   : 0.00   Min.   : 3186  
+##  1st Qu.: 71.0   1st Qu.:11.50   1st Qu.:13.00   1st Qu.: 6751  
+##  Median : 82.0   Median :13.60   Median :21.00   Median : 8377  
+##  Mean   : 79.7   Mean   :14.09   Mean   :22.74   Mean   : 9660  
+##  3rd Qu.: 92.0   3rd Qu.:16.50   3rd Qu.:31.00   3rd Qu.:10830  
+##  Max.   :100.0   Max.   :39.80   Max.   :64.00   Max.   :56233  
+##    Grad.Rate     
+##  Min.   : 10.00  
+##  1st Qu.: 53.00  
+##  Median : 65.00  
+##  Mean   : 65.46  
+##  3rd Qu.: 78.00  
+##  Max.   :118.00
 ```
 
 Use the pairs() function to produce a scatterplot matrix of the first ten columns or variables of the data
 
-```{r}
+
+```r
 pairs(college[,1:10])
 ```
 
+![](chapter_1_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
+
 Use the plot() function to produce side-by-side boxplots of Outstate versus Private.
 
-```{r}
+
+```r
 college %>%
   ggplot( aes( x = Private, y = Outstate)) +
   geom_boxplot()
 ```
 
+![](chapter_1_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
+
 Create a new qualitative variable, called Elite,by binning the Top10perc variable.
 We are going to divide universities into two groups based on whether or not the proportion of students coming from the top 10% of their high school classes exceeds 50 %
 
-```{r}
+
+```r
 Elite <- rep("No", nrow(college))
 Elite[college$Top10perc > 50] <- "Yes"
 Elite <- as.factor(Elite)
@@ -188,21 +231,31 @@ college <- data.frame(college , Elite)
 Use the summary() function to see how many elite universities there are.
 Now use the plot() function to produce side-by-side boxplots of Outstate versus Elite.
 
-```{r}
+
+```r
 summary(college$Elite)
 ```
 
-```{r}
+```
+##  No Yes 
+## 699  78
+```
+
+
+```r
 college %>%
   ggplot( aes( x = Elite, y = Outstate)) +
   geom_boxplot()
 ```
 
+![](chapter_1_files/figure-html/unnamed-chunk-8-1.png)<!-- -->
+
 Use the hist() function to produce some histograms with differing numbers of bins for a few of the quantitative variables.
 You may find the command par(mfrow = c(2, 2)) useful: it will divide the print window into four regions so that four plots can be made simultaneously.
 Modifying the arguments to this function will divide the screen in other ways.
 
-```{r}
+
+```r
 hist_shorcut <- function(data, variable) {
   plot1 <- data %>%
     ggplot( aes( x = variable)) +
@@ -226,15 +279,24 @@ hist_shorcut <- function(data, variable) {
 hist_shorcut(college, college$Apps)
 ```
 
-```{r}
+![](chapter_1_files/figure-html/unnamed-chunk-9-1.png)<!-- -->
+
+
+```r
 hist_shorcut(college, college$Outstate)
 ```
 
-```{r}
+![](chapter_1_files/figure-html/unnamed-chunk-10-1.png)<!-- -->
+
+
+```r
 hist_shorcut(college, college$Terminal)
 ```
 
-```{r}
+![](chapter_1_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
+
+
+```r
 plot1 <- college %>%
   ggplot( aes( x = Grad.Rate)) +
   geom_histogram(bins = 100)
@@ -254,9 +316,12 @@ plot4 <- college %>%
 ggarrange(plot1, ggarrange(plot2, plot3, plot4, ncol=3), nrow=2)
 ```
 
+![](chapter_1_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
+
 Continue exploring the data, and provide a brief summary of what you discover
 
-```{r}
+
+```r
 college %>%
   ggplot( aes( x = Outstate, 
                y = Grad.Rate, 
@@ -265,6 +330,8 @@ college %>%
   facet_wrap( ~Elite)
 ```
 
+![](chapter_1_files/figure-html/unnamed-chunk-13-1.png)<!-- -->
+
 **In these chart the Elite universities are separated from the rest. We can see they are fewer, mostly private, with high graduation rate and generally higher fees. In the left chart we see that most public universities are under 10k fee, while most of privates are over that boundary. It seems to be a positive correlation between oustate fee and graduation rate**
 
 ### ex. 9
@@ -272,7 +339,8 @@ college %>%
 This exercise involves the Auto data set studied in the lab.
 Make sure that the missing values have been removed from the data.
 
-```{r}
+
+```r
 auto <- Auto
 ```
 
@@ -284,7 +352,8 @@ auto <- Auto
 
 -   What is the range of each quantitative predictor?
 
-```{r}
+
+```r
 c <- data.frame( range(auto$mpg),
         range(auto$cylinders),
         range(auto$displacement),
@@ -298,7 +367,19 @@ rownames(c) <- c("min","max")
 t(c)
 ```
 
-```{r}
+```
+##               min    max
+## mpg             9   46.6
+## cylinders       3    8.0
+## displacement   68  455.0
+## horsepower     46  230.0
+## weight       1613 5140.0
+## acceleration    8   24.8
+## year           70   82.0
+```
+
+
+```r
 sd <- Auto %>%
   select(mpg:year) %>% 
   summarise( across(everything(), sd))
@@ -308,13 +389,19 @@ avg <- Auto %>%
   summarise( across(everything(), mean))
 
 bind_rows(avg, sd)
+```
 
+```
+##         mpg cylinders displacement horsepower    weight acceleration      year
+## 1 23.445918  5.471939      194.412  104.46939 2977.5842    15.541327 75.979592
+## 2  7.805007  1.705783      104.644   38.49116  849.4026     2.758864  3.683737
 ```
 
 Now remove the 10th through 85th observations.
 What is the range, mean, and standard deviation of each predictor in the subset of the data that remains?
 
-```{r, eval = FALSE}
+
+```r
 new_auto <- auto[-10:-85,]
 
 range <- new_auto %>%
@@ -330,14 +417,14 @@ avg <- new_auto %>%
   summarise( across(everything()), mean)
 
 bind_rows(range, avg, sd)
-
 ```
 
 Using the full data set, investigate the predictors graphically, using scatterplots or other tools of your choice.
 Create some plots highlighting the relationships among the predictors.
 Comment on your findings.
 
-```{r}
+
+```r
 auto$origin <- as.factor(auto$origin)
 
 auto %>% 
@@ -347,12 +434,18 @@ auto %>%
   geom_jitter(alpha = 0.3) + 
   geom_smooth() +
   facet_wrap( ~origin)
+```
 
 ```
+## `geom_smooth()` using method = 'loess' and formula 'y ~ x'
+```
+
+![](chapter_1_files/figure-html/unnamed-chunk-18-1.png)<!-- -->
 
 **In the years fuel efficiency (mpg) has increased steadily in America (origin 1), in europe (origin 2) and less in japan (origin 3). Nevertheless, it remains significantly slower in american, probably due to a lower fuel cost**
 
-```{r}
+
+```r
 auto %>% 
   ggplot( aes( x = year,
                y = weight,
@@ -362,9 +455,16 @@ auto %>%
   facet_wrap( ~origin)
 ```
 
+```
+## `geom_smooth()` using method = 'loess' and formula 'y ~ x'
+```
+
+![](chapter_1_files/figure-html/unnamed-chunk-19-1.png)<!-- -->
+
 **During the years, new bigger vehicles tend to be less prevalent in america, while europe and japan models do not show this trend**
 
-```{r}
+
+```r
 auto %>% 
   ggplot( aes( x = horsepower,
                y = mpg)) +
@@ -374,11 +474,18 @@ auto %>%
   facet_wrap( ~year>77)
 ```
 
+```
+## `geom_smooth()` using method = 'loess' and formula 'y ~ x'
+```
+
+![](chapter_1_files/figure-html/unnamed-chunk-20-1.png)<!-- -->
+
 **horsepower has an inverse relationship with mpg, with more power is associated with lower fuel efficiency. Car with 150+ hp are present only before 1977. Moreover, the downward trend differs in steepness**
 
 **So, can the effect of the increased fuel efficiency be explained only by the construction of less powerful cars or there was a significant improvement in their technology?**
 
-```{r}
+
+```r
 auto %>% 
   ggplot( aes( x = year,
                y = horsepower) ) +
@@ -387,8 +494,13 @@ auto %>%
   geom_boxplot( aes(group = year),
                 varwidth = TRUE) +
   geom_smooth()
+```
 
 ```
+## `geom_smooth()` using method = 'loess' and formula 'y ~ x'
+```
+
+![](chapter_1_files/figure-html/unnamed-chunk-21-1.png)<!-- -->
 
 **Surely, part of the effect is explained by the decrease of hp during the years, not sure if this explain all of it (also, it is difficult to answer this question from and exploratory data analysis**
 
@@ -400,19 +512,31 @@ This exercise involves the Boston housing data set
 
 - (a) How many rows are in this data set? How many columns? What do the rows and columns represent?
 
-```{r}
+
+```r
 dim(Boston)
+```
+
+```
+## [1] 506  13
 ```
 **data set containing housing values in 506 suburbs of Boston**
 
-```{r}
+
+```r
 colnames(Boston)
+```
+
+```
+##  [1] "crim"    "zn"      "indus"   "chas"    "nox"     "rm"      "age"    
+##  [8] "dis"     "rad"     "tax"     "ptratio" "lstat"   "medv"
 ```
 **each row is a suburb area, each column a different info about that zone (crime rate, pollution, ...)**
 
 - (b) Make some pairwise scatterplots of the predictors (columns) in this data set. Describe your findings.
 
-```{r}
+
+```r
 p1 <- Boston %>% 
   ggplot( aes( x = crim)) +
   geom_histogram()
@@ -452,26 +576,36 @@ ggarrange( ggarrange(p1, p2, p3,
            widths = c(1, 3))
 ```
 
-```{r}
+```
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+```
+
+![](chapter_1_files/figure-html/unnamed-chunk-24-1.png)<!-- -->
+
+
+```r
 Boston %>% 
   ggplot( aes( x = dis,
                y = rad,
                color = tax > 500)) +
   geom_jitter()
+```
 
+![](chapter_1_files/figure-html/unnamed-chunk-25-1.png)<!-- -->
+
+```r
 Boston %>% 
   ggplot( aes( x = lstat,
                y = dis,
                color = crim > 5)) +
   geom_jitter()
-
 ```
+
+![](chapter_1_files/figure-html/unnamed-chunk-25-2.png)<!-- -->
 
 - (c) Are any of the predictors associated with per capita crime rate? If so, explain the relationship
 
-```{r}
 
-
-
-```
 
