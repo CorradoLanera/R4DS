@@ -296,11 +296,11 @@ t(c)
 ```
 
 ```{r}
-sd <- auto %>%
+sd <- Auto %>%
   select(mpg:year) %>% 
   summarise( across(everything(), sd))
 
-avg <- auto %>%
+avg <- Auto %>%
   select(mpg:year) %>% 
   summarise( across(everything(), mean))
 
@@ -311,20 +311,20 @@ bind_rows(avg, sd)
 Now remove the 10th through 85th observations.
 What is the range, mean, and standard deviation of each predictor in the subset of the data that remains?
 
-```{r}
+```{r, eval = FALSE}
 new_auto <- auto[-10:-85,]
 
-range <- auto %>%
+range <- new_auto %>%
   select(mpg:year) %>% 
-  summarise( across(everything(), range))
+  summarise( across(everything()), range())
 
-sd <- auto %>%
+sd <- new_auto %>%
   select(mpg:year) %>% 
-  summarise( across(everything(), sd))
+  summarise( across(everything()), sd)
 
-avg <- auto %>%
+avg <- new_auto %>%
   select(mpg:year) %>% 
-  summarise( across(everything(), mean))
+  summarise( across(everything()), mean)
 
 bind_rows(range, avg, sd)
 
@@ -468,15 +468,6 @@ Boston %>%
 
 ```{r}
 
-boston_melt <- Boston %>% 
-  mutate(id = rownames(Boston)) %>%
-  melt(id = "id")
-
-boston_melt %>% 
-  ggplot( aes( x = id,
-               y = value)) +
-  geom_jitter() +
-  facet_wrap(~variable)
 
 
 ```
