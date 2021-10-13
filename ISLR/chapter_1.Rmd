@@ -1,9 +1,6 @@
 ---
 title: "ISLR Ch.1"
-output: 
-  html_document: 
-    toc: yes
-    keep_md: yes
+output: github_document
 editor_options: 
   markdown: 
     wrap: sentence
